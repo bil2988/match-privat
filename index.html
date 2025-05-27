@@ -16,12 +16,19 @@
     <h1 class="text-3xl font-bold text-center sm:text-left flex-1">🏆 Tournoi FIFA de la Classe IFCA 🏆</h1>
   </header>
 
-  <!-- CONNEXION -->
-  <div id="login" class="max-w-md mx-auto card">
-    <h2 class="text-xl font-semibold mb-2">Connexion Admin</h2>
+  <!-- BOUTON CONNEXION -->
+  <div class="flex justify-center mb-6">
+    <button onclick="toggleLogin()" class="bg-green-500 px-6 py-2 rounded-full hover:bg-green-600 shadow-lg">
+      Connexion Admin
+    </button>
+  </div>
+
+  <!-- FORMULAIRE CONNEXION (caché au début) -->
+  <div id="login" class="max-w-md mx-auto card hidden">
+    <h2 class="text-xl font-semibold mb-2">Connexion</h2>
     <input type="text" id="username" placeholder="Pseudo" class="w-full p-2 mb-2 rounded text-black" />
     <input type="password" id="password" placeholder="Mot de passe" class="w-full p-2 mb-2 rounded text-black" />
-    <button onclick="login()" class="bg-green-500 w-full py-2 rounded hover:bg-green-600">Se connecter</button>
+    <button onclick="login()" class="bg-blue-500 w-full py-2 rounded hover:bg-blue-600">Se connecter</button>
     <p id="loginMessage" class="text-red-400 mt-2"></p>
   </div>
 
@@ -71,6 +78,14 @@
     🎉 Fin du tournoi ! Félicitations à <span id="winnerTeam"></span> 🏆
   </div>
 
+  <!-- SCRIPTS -->
+  <script>
+    function toggleLogin() {
+      const loginBox = document.getElementById("login");
+      loginBox.classList.toggle("hidden");
+      loginBox.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
