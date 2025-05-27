@@ -1,5 +1,6 @@
 let teams = {};
 let matches = [];
+let fileMatchs = [];
 let etatTournoi = "en_attente";
 
 window.onload = async () => {
@@ -54,7 +55,7 @@ function getCountryCode(name) {
 
 async function addTeam() {
   if (etatTournoi !== "en_attente") {
-    alert("Tu ne peux plus ajouter d’équipe, le tournoi a commencé.");
+    alert("Tu ne peux plus ajouter d’équipe.");
     return;
   }
 
@@ -104,11 +105,26 @@ async function addTeam() {
 function refreshSelects() {
   const select1 = document.getElementById("team1");
   const select2 = document.getElementById("team2");
+  if (!select1 || !select2) return;
   select1.innerHTML = select2.innerHTML = "";
   Object.keys(teams).forEach(team => {
     select1.innerHTML += `<option value="${team}">${team}</option>`;
     select2.innerHTML += `<option value="${team}">${team}</option>`;
   });
+}
+
+function afficherMatchSuivant() {
+  if (fileMatchs.length === 0) {
+    endTournament();
+    return;
+  }
+
+  const { t1, t2 } = fileMatchs[0];
+  document.getElementById("currentTeams").innerHTML = `
+    <strong>Match :</strong><br>
+    <img src="${teams[t1].flag}" class="flag"> ${t1} vs 
+    <img src="${teams[t2].flag}" class="flag"> ${t2}
+  `;
 }
 
 async function submitScore() {
@@ -117,28 +133,33 @@ async function submitScore() {
     return;
   }
 
-  const t1 = document.getElementById("team1").value;
-  const t2 = document.getElementById("team2").value;
-  const s1 = parseInt(document.getElementById("score1").value);
-  const s2 = parseInt(document.getElementById("score2").value);
-  if (t1 === t2 || isNaN(s1) || isNaN(s2)) return;
+  const score1 = parseInt(document.getElementById("score1").value);
+  const score2 = parseInt(document.getElementById("score2").value);
+  if (isNaN(score1) || isNaN(score2)) return;
 
-  matches.push({ t1, t2, s1, s2 });
-  document.getElementById("currentTeams").innerHTML = `
-    <img src="${teams[t1].flag}" class="flag"> ${t1} vs 
-    <img src="${teams[t2].flag}" class="flag"> ${t2}`;
+  const { t1, t2 } = fileMatchs.shift();
 
-  if (s1 > s2) {
-    teams[t1].wins++; teams[t2].losses++; teams[t1].points += 3;
-  } else if (s1 < s2) {
-    teams[t2].wins++; teams[t1].losses++; teams[t2].points += 3;
+  matches.push({ t1, t2, s1: score1, s2: score2 });
+
+  if (score1 > score2) {
+    teams[t1].wins++;
+    teams[t2].losses++;
+    teams[t1].points += 3;
+  } else if (score1 < score2) {
+    teams[t2].wins++;
+    teams[t1].losses++;
+    teams[t2].points += 3;
   } else {
-    teams[t1].points += 1; teams[t2].points += 1;
+    teams[t1].points += 1;
+    teams[t2].points += 1;
   }
 
+  document.getElementById("score1").value = "";
+  document.getElementById("score2").value = "";
+
   updateRanking();
-  checkIfFinished();
   await saveData();
+  afficherMatchSuivant();
 }
 
 function updateRanking() {
@@ -154,28 +175,27 @@ function updateRanking() {
   });
 }
 
-function checkIfFinished() {
-  const playedTeams = new Set();
-  matches.forEach(match => {
-    playedTeams.add(match.t1);
-    playedTeams.add(match.t2);
-  });
-  if (playedTeams.size === Object.keys(teams).length) {
-    const sorted = Object.values(teams).sort((a, b) => b.points - a.points);
-    document.getElementById("winnerTeam").innerHTML = `<img src="${sorted[0].flag}" class="flag"> ${sorted[0].name}`;
-    document.getElementById("trophyAnimation").classList.remove("hidden");
-  }
-}
-
 function startTournament() {
   if (Object.keys(teams).length < 2) {
-    alert("Ajoute au moins deux équipes avant de commencer !");
+    alert("Ajoute au moins deux équipes.");
     return;
   }
+
   etatTournoi = "en_cours";
   document.getElementById("etatTournoiTxt").textContent = "Statut : En cours";
   document.getElementById("playerNames").disabled = true;
   document.getElementById("teamCountry").disabled = true;
+
+  // Générer tous les matchs possibles
+  const noms = Object.keys(teams);
+  fileMatchs = [];
+  for (let i = 0; i < noms.length; i++) {
+    for (let j = i + 1; j < noms.length; j++) {
+      fileMatchs.push({ t1: noms[i], t2: noms[j] });
+    }
+  }
+
+  afficherMatchSuivant();
 }
 
 function endTournament() {
@@ -183,7 +203,27 @@ function endTournament() {
   document.getElementById("etatTournoiTxt").textContent = "Statut : Terminé";
   document.getElementById("score1").disabled = true;
   document.getElementById("score2").disabled = true;
-  document.getElementById("team1").disabled = true;
-  document.getElementById("team2").disabled = true;
-  document.getElementById("currentTeams").innerHTML += "<br><strong>Le tournoi est terminé.</strong>";
-    }
+
+  const sorted = Object.values(teams).sort((a, b) => b.points - a.points);
+  document.getElementById("winnerTeam").innerHTML = `<img src="${sorted[0].flag}" class="flag"> ${sorted[0].name}`;
+  document.getElementById("trophyAnimation").classList.remove("hidden");
+}
+
+function resetTournament() {
+  if (!confirm("Réinitialiser complètement le tournoi ?")) return;
+  teams = {};
+  matches = [];
+  fileMatchs = [];
+  etatTournoi = "en_attente";
+  document.getElementById("etatTournoiTxt").textContent = "Statut : En attente";
+  document.getElementById("score1").disabled = false;
+  document.getElementById("score2").disabled = false;
+  document.getElementById("playerNames").disabled = false;
+  document.getElementById("teamCountry").disabled = false;
+  document.getElementById("currentTeams").innerHTML = "";
+  document.getElementById("winnerTeam").innerHTML = "";
+  document.getElementById("trophyAnimation").classList.add("hidden");
+  refreshSelects();
+  updateRanking();
+  saveData();
+}
