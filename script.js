@@ -1,6 +1,38 @@
 let teams = {};
 let matches = [];
 
+// Charger les données au démarrage
+window.onload = async () => {
+  await loadData();
+  refreshSelects();
+  updateRanking();
+};
+
+// Charger les données depuis Netlify
+async function loadData() {
+  try {
+    const res = await fetch('/.netlify/functions/getData');
+    const data = await res.json();
+    teams = data.teams || {};
+    matches = data.matches || [];
+  } catch (err) {
+    console.error("Erreur de chargement des données :", err);
+  }
+}
+
+// Sauvegarder les données sur Netlify
+async function saveData() {
+  try {
+    await fetch('/.netlify/functions/saveData', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teams, matches })
+    });
+  } catch (err) {
+    console.error("Erreur de sauvegarde :", err);
+  }
+}
+
 function login() {
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;
@@ -13,7 +45,7 @@ function login() {
   }
 }
 
-function addTeam() {
+async function addTeam() {
   const name = document.getElementById("teamName").value;
   const flag = document.getElementById("teamFlag").value;
   if (name && !teams[name]) {
@@ -22,6 +54,7 @@ function addTeam() {
     document.getElementById("teamFlag").value = "";
     refreshSelects();
     updateRanking();
+    await saveData();
   }
 }
 
@@ -35,16 +68,18 @@ function refreshSelects() {
   });
 }
 
-function submitScore() {
+async function submitScore() {
   const t1 = document.getElementById("team1").value;
   const t2 = document.getElementById("team2").value;
   const s1 = parseInt(document.getElementById("score1").value);
   const s2 = parseInt(document.getElementById("score2").value);
   if (t1 === t2 || isNaN(s1) || isNaN(s2)) return;
+
   matches.push({ t1, t2, s1, s2 });
   document.getElementById("currentTeams").innerHTML = `
     <img src="${teams[t1].flag}" class="flag"> ${t1} vs 
     <img src="${teams[t2].flag}" class="flag"> ${t2}`;
+
   if (s1 > s2) {
     teams[t1].wins++;
     teams[t2].losses++;
@@ -57,8 +92,10 @@ function submitScore() {
     teams[t1].points += 1;
     teams[t2].points += 1;
   }
+
   updateRanking();
   checkIfFinished();
+  await saveData();
 }
 
 function updateRanking() {
@@ -81,4 +118,4 @@ function checkIfFinished() {
     document.getElementById("winnerTeam").innerHTML = `<img src="${sorted[0].flag}" class="flag"> ${sorted[0].name}`;
     document.getElementById("trophyAnimation").classList.remove("hidden");
   }
-}
+      }
