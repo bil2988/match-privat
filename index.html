@@ -36,9 +36,20 @@
   <div id="adminPanel" class="hidden max-w-3xl mx-auto card">
     <h2 class="text-2xl font-bold mb-4">Panneau Admin</h2>
 
-    <!-- Ajout équipe -->
+    <!-- Contrôle du tournoi -->
+    <div class="mb-4 flex flex-wrap gap-2 items-center">
+      <button onclick="startTournament()" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700">
+        Démarrer le tournoi
+      </button>
+      <button onclick="endTournament()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+        Terminer le tournoi
+      </button>
+      <span id="etatTournoiTxt" class="ml-4 font-semibold text-yellow-300">Statut : En attente</span>
+    </div>
+
+    <!-- Ajout équipe par prénoms -->
     <div class="mb-4">
-      <input id="teamName" placeholder="Nom de l'équipe" class="w-full p-2 mb-2 rounded text-black" />
+      <input id="playerNames" placeholder="Prénoms des joueurs (séparés par virgule)" class="w-full p-2 mb-2 rounded text-black" />
       <input id="teamCountry" placeholder="Pays (ex: France, Brésil)" class="w-full p-2 mb-2 rounded text-black" />
       <button onclick="addTeam()" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Ajouter Équipe</button>
     </div>
