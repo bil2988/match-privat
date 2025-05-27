@@ -1,14 +1,12 @@
 let teams = {};
 let matches = [];
 
-// Charger les données au démarrage
 window.onload = async () => {
   await loadData();
   refreshSelects();
   updateRanking();
 };
 
-// Charger les données depuis Netlify
 async function loadData() {
   try {
     const res = await fetch('/.netlify/functions/getData');
@@ -16,11 +14,10 @@ async function loadData() {
     teams = data.teams || {};
     matches = data.matches || [];
   } catch (err) {
-    console.error("Erreur de chargement des données :", err);
+    console.warn("Données locales utilisées (aucun backend actif).");
   }
 }
 
-// Sauvegarder les données sur Netlify
 async function saveData() {
   try {
     await fetch('/.netlify/functions/saveData', {
@@ -29,7 +26,7 @@ async function saveData() {
       body: JSON.stringify({ teams, matches })
     });
   } catch (err) {
-    console.error("Erreur de sauvegarde :", err);
+    console.warn("Données non enregistrées (mode local).");
   }
 }
 
@@ -45,17 +42,28 @@ function login() {
   }
 }
 
+function getCountryCode(name) {
+  const countries = {
+    france: 'fr', brésil: 'br', brazil: 'br', maroc: 'ma', algérie: 'dz', tunisie: 'tn',
+    espagne: 'es', italie: 'it', allemagne: 'de', sénégal: 'sn', portugal: 'pt',
+    angleterre: 'gb', belgique: 'be', argentine: 'ar', japon: 'jp', chine: 'cn', turquie: 'tr'
+  };
+  return countries[name.toLowerCase()] || null;
+}
+
 async function addTeam() {
   const name = document.getElementById("teamName").value;
-  const flag = document.getElementById("teamFlag").value;
-  if (name && !teams[name]) {
-    teams[name] = { name, flag, wins: 0, losses: 0, points: 0 };
-    document.getElementById("teamName").value = "";
-    document.getElementById("teamFlag").value = "";
-    refreshSelects();
-    updateRanking();
-    await saveData();
-  }
+  const country = document.getElementById("teamCountry").value.trim();
+  const code = getCountryCode(country);
+  if (!name || !code || teams[name]) return alert("Nom d’équipe déjà utilisé ou pays non reconnu.");
+
+  const flag = `https://flagcdn.com/48x36/${code}.png`;
+  teams[name] = { name, flag, wins: 0, losses: 0, points: 0 };
+  document.getElementById("teamName").value = "";
+  document.getElementById("teamCountry").value = "";
+  refreshSelects();
+  updateRanking();
+  await saveData();
 }
 
 function refreshSelects() {
@@ -81,16 +89,11 @@ async function submitScore() {
     <img src="${teams[t2].flag}" class="flag"> ${t2}`;
 
   if (s1 > s2) {
-    teams[t1].wins++;
-    teams[t2].losses++;
-    teams[t1].points += 3;
+    teams[t1].wins++; teams[t2].losses++; teams[t1].points += 3;
   } else if (s1 < s2) {
-    teams[t2].wins++;
-    teams[t1].losses++;
-    teams[t2].points += 3;
+    teams[t2].wins++; teams[t1].losses++; teams[t2].points += 3;
   } else {
-    teams[t1].points += 1;
-    teams[t2].points += 1;
+    teams[t1].points += 1; teams[t2].points += 1;
   }
 
   updateRanking();
@@ -118,4 +121,4 @@ function checkIfFinished() {
     document.getElementById("winnerTeam").innerHTML = `<img src="${sorted[0].flag}" class="flag"> ${sorted[0].name}`;
     document.getElementById("trophyAnimation").classList.remove("hidden");
   }
-      }
+}
