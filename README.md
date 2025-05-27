@@ -1,36 +1,41 @@
-# Tournoi FIFA - Lycée Charles Privat
+# Tournoi FIFA – Lycée Charles Privat
 
-**Application web 100 % Frontend** permettant de gérer un tournoi FIFA entre plusieurs équipes.
+Application web interactive permettant d'organiser un tournoi FIFA entre équipes, avec sauvegarde des scores et classement en temps réel via un mini backend.
+
+---
 
 ## Fonctionnalités
 
-- Connexion admin sécurisée (identifiants en local)
-- Ajout d'équipes avec drapeau
-- Saisie des scores
-- Classement dynamique
-- Annonce du vainqueur
-- Compatible mobile et tablette
-- Design moderne avec Tailwind CSS
+- Connexion admin sécurisée (frontend)
+- Ajout d’équipes avec drapeau
+- Enregistrement des scores
+- Classement dynamique en direct
+- Annonce automatique du vainqueur
+- Design e-sport moderne avec fond animé
+- 100 % responsive (mobile/tablette/PC)
+- Données partagées entre tous les utilisateurs (mini-backend via Netlify Functions)
 
-## Utilisation
+---
 
-1. Cloner le dépôt
-2. Ajouter le fichier `assets/logo-privat.png`
-3. Ouvrir `index.html` dans un navigateur
+## Aperçu
 
-## Identifiants
+![aperçu](assets/logo-privat.png)
 
-- **Pseudo** : `admin`
-- **Mot de passe** : `ifca123`
+---
 
-## Déploiement
+## Technologies utilisées
 
-Tu peux héberger ce projet sur :
+- HTML5 / CSS3 / JavaScript
+- TailwindCSS
+- Netlify Functions (mini-backend)
+- JSON comme base de données simple
 
-- GitHub Pages
-- Netlify
-- Vercel
+---
 
-## Contributeur
+## Installation et Déploiement
 
-Projet scolaire par la classe IFCA du Lycée Charles Privat à Arles.
+### 1. Cloner le projet
+
+```bash
+git clone https://github.com/ton-utilisateur/tournoi-fifa.git
+cd tournoi-fifa
