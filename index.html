@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tournoi FIFA - Lycée Charles Privat</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="p-4 sm:p-6">
 
-  <!-- HEADER AVEC LOGO ANIMÉ -->
+  <!-- HEADER -->
   <header class="flex flex-col sm:flex-row items-center justify-between bg-white bg-opacity-10 rounded-xl p-4 mb-6 shadow-md">
     <img src="assets/logo-privat.png" alt="Logo Charles Privat"
          class="h-16 mb-4 sm:mb-0 transition-transform duration-300 hover:scale-110" />
@@ -36,29 +36,29 @@
   <div id="adminPanel" class="hidden max-w-3xl mx-auto card">
     <h2 class="text-2xl font-bold mb-4">Panneau Admin</h2>
 
-    <!-- Contrôle du tournoi -->
+    <!-- Contrôle tournoi -->
     <div class="mb-4 flex flex-wrap gap-2 items-center">
       <button onclick="startTournament()" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700">
         Démarrer le tournoi
       </button>
       <button onclick="endTournament()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
-        Terminer le tournoi
+        Terminer
+      </button>
+      <button onclick="resetTournament()" class="bg-gray-500 px-4 py-2 rounded hover:bg-gray-600">
+        Réinitialiser
       </button>
       <span id="etatTournoiTxt" class="ml-4 font-semibold text-yellow-300">Statut : En attente</span>
     </div>
 
-    <!-- Ajout équipe par prénoms -->
+    <!-- Ajout équipe -->
     <div class="mb-4">
-      <input id="playerNames" placeholder="Prénoms des joueurs (séparés par virgule)" class="w-full p-2 mb-2 rounded text-black" />
+      <input id="playerNames" placeholder="Prénoms des joueurs (min 2, max 4, séparés par virgule)" class="w-full p-2 mb-2 rounded text-black" />
       <input id="teamCountry" placeholder="Pays (ex: France, Brésil)" class="w-full p-2 mb-2 rounded text-black" />
       <button onclick="addTeam()" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Ajouter Équipe</button>
     </div>
 
     <!-- Saisie score -->
     <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-      <select id="team1" class="text-black p-2 rounded mb-2 sm:mb-0"></select>
-      <span class="text-xl">vs</span>
-      <select id="team2" class="text-black p-2 rounded mb-2 sm:mb-0"></select>
       <input type="number" id="score1" class="w-20 p-2 text-black rounded" placeholder="Score 1" />
       <input type="number" id="score2" class="w-20 p-2 text-black rounded" placeholder="Score 2" />
       <button onclick="submitScore()" class="bg-yellow-400 px-4 py-2 mt-2 sm:mt-0 rounded hover:bg-yellow-500">Soumettre</button>
@@ -84,11 +84,12 @@
     </table>
   </div>
 
-  <!-- TROPHÉE -->
+  <!-- FIN DU TOURNOI -->
   <div id="trophyAnimation" class="text-center text-2xl font-bold mt-6 hidden">
     🎉 Fin du tournoi ! Félicitations à <span id="winnerTeam"></span> 🏆
   </div>
 
+  <!-- SCRIPTS -->
   <script>
     function toggleLogin() {
       const loginBox = document.getElementById("login");
