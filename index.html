@@ -23,7 +23,7 @@
     </button>
   </div>
 
-  <!-- FORMULAIRE CONNEXION (caché au début) -->
+  <!-- FORMULAIRE CONNEXION -->
   <div id="login" class="max-w-md mx-auto card hidden">
     <h2 class="text-xl font-semibold mb-2">Connexion</h2>
     <input type="text" id="username" placeholder="Pseudo" class="w-full p-2 mb-2 rounded text-black" />
@@ -39,7 +39,7 @@
     <!-- Ajout équipe -->
     <div class="mb-4">
       <input id="teamName" placeholder="Nom de l'équipe" class="w-full p-2 mb-2 rounded text-black" />
-      <input id="teamFlag" placeholder="URL du drapeau (ex: https://flagcdn.com/fr.svg)" class="w-full p-2 mb-2 rounded text-black" />
+      <input id="teamCountry" placeholder="Pays (ex: France, Brésil)" class="w-full p-2 mb-2 rounded text-black" />
       <button onclick="addTeam()" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Ajouter Équipe</button>
     </div>
 
@@ -78,7 +78,6 @@
     🎉 Fin du tournoi ! Félicitations à <span id="winnerTeam"></span> 🏆
   </div>
 
-  <!-- SCRIPTS -->
   <script>
     function toggleLogin() {
       const loginBox = document.getElementById("login");
