@@ -35,7 +35,7 @@ async function saveData() {
 function login() {
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;
-  if (user === "admin" && pass === "ifca123") {
+  if (user === "admin" && pass === "fifatournoi") {
     document.getElementById("login").classList.add("hidden");
     document.getElementById("adminPanel").classList.remove("hidden");
     refreshSelects();
