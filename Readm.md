@@ -34,3 +34,5 @@ Tu peux héberger ce projet sur :
 ## Contributeur
 
 Projet réalisé par code no senpaï, merci de crédité le devlooppeur en laissant le footer en bas de la page ;)
+
+possibilité de déployé sur netlify gratuitement https://netlify.app
