@@ -1,4 +1,4 @@
-# Tournoi FIFA – Lycée Charles Privat
+# Tournoi FIFA 
 
 Application web interactive permettant d'organiser un tournoi FIFA entre équipes, avec sauvegarde des scores et classement en temps réel via un mini backend.
 
