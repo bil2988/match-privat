@@ -19,9 +19,9 @@
 3. Ouvrir `index.html` dans un navigateur
 
 ## Identifiants
-
+a modifie dans stipt.js ligne
 - **Pseudo** : `admin`
-- **Mot de passe** : `ifca123`
+- **Mot de passe** : `fifatournoi`
 
 ## Déploiement
 
