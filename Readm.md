@@ -15,11 +15,11 @@
 ## Utilisation
 
 1. Cloner le dépôt
-2. Ajouter le fichier `assets/logo-privat.png`
+2. Ajouter le fichier `assets/logo.png`
 3. Ouvrir `index.html` dans un navigateur
 
 ## Identifiants
-a modifie dans stipt.js ligne
+a modifie dans stipt.js ligne 38
 - **Pseudo** : `admin`
 - **Mot de passe** : `fifatournoi`
 
