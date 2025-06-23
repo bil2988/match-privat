@@ -17,11 +17,6 @@ Application web interactive permettant d'organiser un tournoi FIFA entre équipe
 
 ---
 
-## Aperçu
-
-![aperçu](assets/logo-privat.png)
-
----
 
 ## Technologies utilisées
 
