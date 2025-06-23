@@ -1,4 +1,4 @@
-# Tournoi FIFA - Lycée Charles Privat
+# Tournoi FIFA 
 
 **Application web 100 % Frontend** permettant de gérer un tournoi FIFA entre plusieurs équipes.
 
@@ -33,4 +33,4 @@ Tu peux héberger ce projet sur :
 
 ## Contributeur
 
-Projet scolaire par la classe IFCA du Lycée Charles Privat à Arles.
+Projet réalisé par code no senpaï, merci de crédité le devlooppeur en laissant le footer en bas de la page ;)
